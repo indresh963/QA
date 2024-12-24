@@ -83,3 +83,237 @@ React provides access to the current value using a ref.
 - Hooks are ideal for new projects or when refactoring small, manageable components in existing projects.
 - In large legacy codebases, transitioning to hooks should be done gradually to avoid introducing unnecessary complexity.
 
+4. What's JSX?
+>> **JSX (JavaScript XML)** is a syntax extension for JavaScript that is commonly used in React to describe what the UI should look like. JSX allows you to write HTML-like syntax directly in JavaScript, making the code more readable and easier to work with when building components.
+
+---
+
+### **Features of JSX**
+
+1. **HTML-like Syntax in JavaScript:**
+   - JSX allows developers to write elements that look similar to HTML but are actually JavaScript under the hood.
+   - Example:
+     ```jsx
+     const element = <h1>Hello, World!</h1>;
+     ```
+
+2. **React.createElement():**
+   - JSX is syntactic sugar for `React.createElement()`. The above JSX compiles to:
+     ```javascript
+     const element = React.createElement('h1', null, 'Hello, World!');
+     ```
+
+3. **Embedding Expressions:**
+   - You can embed JavaScript expressions inside curly braces `{}` in JSX.
+   - Example:
+     ```jsx
+     const name = 'Indresh';
+     const greeting = <h1>Hello, {name}!</h1>;
+     ```
+
+4. **Attributes in JSX:**
+   - JSX attributes are similar to HTML but use camelCase for naming conventions (e.g., `className` instead of `class`, `onClick` instead of `onclick`).
+   - Example:
+     ```jsx
+     const button = <button onClick={handleClick}>Click Me</button>;
+     ```
+
+5. **JSX Can Return Only One Parent Element:**
+   - JSX must return a single parent element. To return multiple elements, wrap them in a container (e.g., a `<div>` or `<React.Fragment>`).
+   - Example:
+     ```jsx
+     return (
+       <div>
+         <h1>Title</h1>
+         <p>Description</p>
+       </div>
+     );
+     ```
+
+6. **Conditionals in JSX:**
+   - Conditional rendering can be achieved using JavaScript expressions.
+   - Example:
+     ```jsx
+     const isLoggedIn = true;
+     const message = <h1>{isLoggedIn ? 'Welcome Back!' : 'Please Log In'}</h1>;
+     ```
+
+---
+
+### **Advantages of JSX**
+
+1. **Improved Readability:**
+   - JSX makes the code more readable and concise by combining JavaScript and UI structure.
+
+2. **Integration with JavaScript:**
+   - Allows you to seamlessly integrate JavaScript logic (e.g., loops, conditionals) within the UI code.
+
+3. **Component-Based Structure:**
+   - Encourages modular, reusable, and maintainable components.
+
+4. **Error Prevention:**
+   - JSX provides compile-time checks, which help catch errors like incorrect syntax or undefined variables.
+
+---
+
+### **Disadvantages of JSX**
+
+1. **Initial Learning Curve:**
+   - Beginners may find it challenging to understand how JSX works and how it is different from HTML.
+
+2. **Requires a Transpiler:**
+   - JSX needs to be compiled into JavaScript using tools like Babel, adding an additional build step.
+
+3. **Not Standard JavaScript:**
+   - JSX is not part of the JavaScript standard, so it may not be familiar to developers coming from non-React backgrounds.
+
+---
+
+### **Example: Using JSX in a Component**
+```jsx
+import React from 'react';
+
+function Greeting({ name }) {
+  return (
+    <div>
+      <h1>Hello, {name}!</h1>
+      <p>Welcome to learning JSX.</p>
+    </div>
+  );
+}
+
+export default Greeting;
+```
+
+In this example:
+- The `Greeting` component uses JSX to define its UI.
+- The `{name}` placeholder dynamically inserts the value of the `name` prop.
+
+---
+
+### **Conclusion**
+JSX is a powerful feature of React that simplifies writing and understanding UI code. It bridges the gap between JavaScript and the UI, enabling developers to create dynamic, interactive user interfaces efficiently.
+
+5.Difference between state and props?
+>>State:
+State is an object that holds dynamic, mutable data managed within a component. It allows a component to track and respond to user interactions, changes, or events.
+
+Props (Properties):
+Props are read-only inputs passed from a parent component to a child component. They are used to communicate data and behavior down the component hierarchy.
+
+Key Difference
+
+Data Management	Managed within the component (local to it).	Passed from a parent component.
+Mutability	Mutable: Can be updated using setState or useState.	Immutable: Cannot be modified by the child component.
+Purpose	Used to store dynamic data that changes over time.	Used to pass data and functions to child components.
+Accessibility	Accessible only within the component that defines it.	Passed to child components and accessible there.
+Updates	Updating state triggers a re-render of the component.	Props do not trigger re-renders unless the parent re-renders and provides new props.
+Dependency	Defined and used only within the component itself.	Passed down from the parent component.
+
+6.Use of keys in react js?
+
+>>### **Use of Keys in React**
+
+In React, **keys** are special attributes that help identify which elements in a list have changed, been added, or been removed. They are crucial for React's **reconciliation algorithm**, which efficiently updates the DOM by minimizing unnecessary re-renders.
+
+---
+
+### **Why Are Keys Important?**
+
+1. **Efficient Rendering:**
+   - Keys help React uniquely identify elements in a list.
+   - When the list changes (e.g., adding, removing, or reordering items), React uses the keys to determine which items have changed and only updates those parts of the DOM.
+
+2. **Avoid React Warnings:**
+   - Without keys, React generates a warning in the console, indicating that keys are missing.
+
+3. **Maintaining State:**
+   - Keys ensure that the state of components is preserved when their position in the list changes.
+
+---
+
+### **How to Use Keys**
+
+Keys should be:
+1. **Unique Among Siblings:**
+   - Each child in a list must have a unique key. Typically, a unique identifier such as an `id` or an index is used.
+2. **Stable:**
+   - Keys should not change over time. Avoid using array indices as keys if the list can be reordered or items can be added/removed.
+
+---
+
+### **Example: Using Keys**
+
+#### Without Keys:
+```jsx
+function ListWithoutKeys({ items }) {
+  return (
+    <ul>
+      {items.map(item => (
+        <li>{item}</li>
+      ))}
+    </ul>
+  );
+}
+```
+- This will render, but React will warn about missing keys.
+
+---
+
+#### With Keys:
+```jsx
+function ListWithKeys({ items }) {
+  return (
+    <ul>
+      {items.map(item => (
+        <li key={item.id}>{item.name}</li>
+      ))}
+    </ul>
+  );
+}
+```
+- Here, `item.id` is used as a unique key, ensuring React can efficiently update the list.
+
+---
+
+### **Best Practices for Keys**
+
+1. **Use Unique Identifiers:**
+   - If your data has a unique `id` field, use it as the key.
+   - Example:
+     ```jsx
+     const items = [
+       { id: 1, name: 'Item 1' },
+       { id: 2, name: 'Item 2' },
+     ];
+
+     items.map(item => <div key={item.id}>{item.name}</div>);
+     ```
+
+2. **Avoid Using Array Indices:**
+   - Using array indices as keys can lead to issues if the list is reordered or modified.
+   - Example of bad practice:
+     ```jsx
+     items.map((item, index) => <div key={index}>{item.name}</div>);
+     ```
+
+3. **Ensure Stability:**
+   - Keys should not change between renders. Unstable keys can lead to performance issues or bugs.
+
+4. **Avoid Reusing Keys:**
+   - Keys must be unique among siblings but can be reused across different lists.
+
+---
+
+### **What Happens Without Keys?**
+
+When keys are missing or improperly used:
+1. React re-renders all list items instead of selectively updating them.
+2. Component state may not persist correctly between renders.
+3. React will display a warning in the console about missing keys.
+
+---
+
+### **Conclusion**
+
+Keys are essential in React for efficient rendering and reconciliation. Always use unique, stable keys for list items to ensure that React can identify changes accurately and avoid unnecessary re-renders.
